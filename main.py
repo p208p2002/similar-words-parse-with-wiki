@@ -1,3 +1,4 @@
+# -!- coding: utf-8 -!-
 from KeyMatch import KeyMatch
 import pickle
 import threading
