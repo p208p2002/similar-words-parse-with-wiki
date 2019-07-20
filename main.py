@@ -1,6 +1,8 @@
 from KeyMatch import KeyMatch
 import pickle
 import threading
+import time
+import re
 
 def matchJobThread(matchKey:str,blackWords:list):
     km = KeyMatch() # 初始化
@@ -55,7 +57,7 @@ if __name__ == "__main__":
 
     #
     km = KeyMatch()
-    KEY = '華碩'
+    KEY = '陳水扁'
     matchRes = matchKeys([KEY])[0]
 
     #
@@ -88,10 +90,14 @@ if __name__ == "__main__":
         if(len(compareResult)>0):
             compareResults.append((kws,compareResult))
     
-    compareResults.sort(key=lambda t: len(t[1]), reverse=False)
-    for r in compareResults:
-        print(r)
-
-   
-        
-
+    compareResults.sort(key=lambda t: len(t[1]), reverse=True)
+    saveFileName = str(int(time.time()))+'.txt'
+    onlyKey = []
+    for tup in compareResults:
+        k,ary = tup
+        onlyKey.append(k)
+    with open('output/'+saveFileName, 'w',encoding='utf-8') as f:
+        outStr = str(onlyKey[0:10])
+        outStr = re.sub(r"['\s\[\]']+",'',outStr) # "space" [ ] '
+        outStr = outStr.replace(',','\n')
+        f.write(outStr)
