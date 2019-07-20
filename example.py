@@ -18,7 +18,7 @@ if __name__ == "__main__":
     blackWords = blackWords + data
 
     # 配對關鍵字
-    key = '周杰倫'
+    key = '蔡英文'
 
     # 維基資料
     jsonFile = 'wikidata/wiki20180805_fullText.json'

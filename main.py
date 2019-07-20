@@ -22,7 +22,7 @@ def matchKeys(keys:list)->list:
             for job in jobs:
                 t,km = job
                 t.join()
-                results.append(km.getTop(10))
+                results.append(km.getTop(25))
                 usingThreads -= 1
             jobs = []
     # 如果有尚未跑完的
@@ -30,9 +30,17 @@ def matchKeys(keys:list)->list:
         for job in jobs:
             t,km = job
             t.join()
-            results.append(km.getTop(10))
+            results.append(km.getTop(25))
     
     return results
+
+def keywordsWithoutTimes(keywords:list):
+    newKeywords = []
+    for key in keywords:
+        k,t = key
+        newKeywords.append(k)
+    return newKeywords
+
 
 if __name__ == "__main__":
     # 自訂單詞黑名單
@@ -47,21 +55,43 @@ if __name__ == "__main__":
 
     #
     km = KeyMatch()
-    key = '陳水扁'
-    km.match(key, blackWords, 'full')
-    matchRes = km.getTop(10)
+    KEY = '華碩'
+    matchRes = matchKeys([KEY])[0]
+
+    #
+    keys = keywordsWithoutTimes(matchRes)
+    print('top keys',keys) # 前10高關鍵字
+    keywords = matchKeys(keys) # 找出前10高關鍵字的所有關聯關鍵字
+    # print(keywords)
+
+    # 遍歷所有結果，對所有關鍵字再分析
+    keywords2 = []
+    for kws in keywords:
+        key = keywordsWithoutTimes(kws)
+        keywords2 = keywords2 + key
+            
+    keywords2 = list(set(keywords2))
+    matchKeys(keywords2)
     
     #
-    keys = []
-    for res in matchRes:
-        key, times = res
-        keys.append(key)
+    km = KeyMatch()
+    km.match(KEY, blackWords, 'full')
+    compareTarget = keywordsWithoutTimes(km.getTop(25))
+    commonCounts = []
+    compareResults = []
+    for kws in keywords2:
+        km = KeyMatch()
+        km.match(kws, blackWords, 'full')
+        kwsMatch = keywordsWithoutTimes(km.getTop(25))
+        compareResult = list(set(compareTarget)&set(kwsMatch))
+        
+        if(len(compareResult)>0):
+            compareResults.append((kws,compareResult))
     
-    print('top keys',keys)
-
-    results = matchKeys(keys)
-    
-    print('ok')
-    for r in results:
+    compareResults.sort(key=lambda t: len(t[1]), reverse=False)
+    for r in compareResults:
         print(r)
+
+   
+        
 

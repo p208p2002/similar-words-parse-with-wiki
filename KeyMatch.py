@@ -33,9 +33,9 @@ class KeyMatch():
 
     def match(self, key='', blackWords=[], subDir= ''):
         # 開始匹配
-        print('** 開始關鍵字匹配 **')
+        # print('** 開始關鍵字匹配 **')
         self.__matchKey(key, blackWords, subDir)
-        print('** 完成 **')
+        # print('** 完成 **')
     
     def getTop(self,n):
         return Counter(self.keyMatchRes).most_common(n)
@@ -128,6 +128,7 @@ class KeyMatch():
             pass
 
     def __matchKey(self, key, blackWords=[], subDir= ''):
+        key = str(key)
         if os.path.exists('.kmcache/'+key+'.pkl'):
             with open('.kmcache/'+key+'.pkl','rb') as f:
                 self.keyMatchRes = pickle.load(f)
@@ -152,7 +153,7 @@ class KeyMatch():
                 try:
                     with open(fileRootPath + '/' + fileBaseName + str(fileSN) + '.pkl', 'rb') as f:
                         jsonDataAsWords = pickle.load(f)
-                    # print('matching:',str(fileSN) + '/' + str(totalFiles))
+                    print('matching:',str(fileSN) + '/' + str(totalFiles))
                     fileSN += 1
                     
                     # 匹配關鍵字                
