@@ -6,6 +6,7 @@ import json
 import os
 from collections import Counter
 import pickle
+import sys
 
 class KeyMatch():
     def __init__(self):        
@@ -13,6 +14,7 @@ class KeyMatch():
         self.jsonDataWithSplit = [] # 句子分割        
         self.blackFlags = [] # 詞性過濾黑名單
         self.keyMatchRes = []
+        sys.stdout = open(os.devnull, 'w') #disable print
             
     def split(self, jsonDataPath, blackFlags=[]):        
         # 加載字典        
