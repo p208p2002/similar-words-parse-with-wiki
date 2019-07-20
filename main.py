@@ -7,7 +7,7 @@ import argparse
 
 def matchJobThread(matchKey:str,blackWords:list):
     km = KeyMatch() # 初始化
-    thread = threading.Thread(target = km.match,args=(matchKey, blackWords, 'full'))
+    thread = threading.Thread(target = km.match,args=(matchKey, blackWords, ''))
     thread.start()
     return (thread,km)
 
