@@ -3,6 +3,7 @@ import pickle
 import threading
 import time
 import re
+import argparse
 
 def matchJobThread(matchKey:str,blackWords:list):
     km = KeyMatch() # 初始化
@@ -24,7 +25,7 @@ def matchKeys(keys:list)->list:
             for job in jobs:
                 t,km = job
                 t.join()
-                results.append(km.getTop(25))
+                results.append(km.getTop(SEARCH_RANGE))
                 usingThreads -= 1
             jobs = []
     # 如果有尚未跑完的
@@ -32,7 +33,7 @@ def matchKeys(keys:list)->list:
         for job in jobs:
             t,km = job
             t.join()
-            results.append(km.getTop(25))
+            results.append(km.getTop(SEARCH_RANGE))
     
     return results
 
@@ -45,6 +46,14 @@ def keywordsWithoutTimes(keywords:list):
 
 
 if __name__ == "__main__":
+    # argv
+    parser = argparse.ArgumentParser(description='similar words with wiki')
+    parser.add_argument('-k','--key', action="store", dest="key", type=str, required=True)
+    parser.add_argument('-sr','--search-range', action="store", dest="search_range", type=int, default=25)
+    given_args = parser.parse_args()
+    KEY = given_args.key
+    SEARCH_RANGE = given_args.search_range
+
     # 自訂單詞黑名單
     with open('blacklists/words.txt','r',encoding='utf-8') as f:
         data = f.read()
@@ -57,7 +66,6 @@ if __name__ == "__main__":
 
     #
     km = KeyMatch()
-    KEY = '陳水扁'
     matchRes = matchKeys([KEY])[0]
 
     #
@@ -78,13 +86,13 @@ if __name__ == "__main__":
     #
     km = KeyMatch()
     km.match(KEY, blackWords, 'full')
-    compareTarget = keywordsWithoutTimes(km.getTop(25))
+    compareTarget = keywordsWithoutTimes(km.getTop(SEARCH_RANGE))
     commonCounts = []
     compareResults = []
     for kws in keywords2:
         km = KeyMatch()
         km.match(kws, blackWords, 'full')
-        kwsMatch = keywordsWithoutTimes(km.getTop(25))
+        kwsMatch = keywordsWithoutTimes(km.getTop(SEARCH_RANGE))
         compareResult = list(set(compareTarget)&set(kwsMatch))
         
         if(len(compareResult)>0):
@@ -101,3 +109,5 @@ if __name__ == "__main__":
         outStr = re.sub(r"['\s\[\]']+",'',outStr) # "space" [ ] '
         outStr = outStr.replace(',','\n')
         f.write(outStr)
+    
+    print('save:','output/'+saveFileName)
