@@ -11,6 +11,7 @@ $ python main.py -k=陳水扁 -sr=25
 ```
 -k --key 搜尋關鍵字
 -sr --serach_range 搜尋範圍/深度(default:25)
+-t --thread 執行緒啟用上限(default:4)
 ```
 
 # 範例輸出
