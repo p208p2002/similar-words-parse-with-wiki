@@ -88,13 +88,13 @@ if __name__ == "__main__":
     
     #
     km = KeyMatch()
-    km.match(KEY, blackWords, 'full')
+    km.match(KEY, blackWords, '')
     compareTarget = keywordsWithoutTimes(km.getTop(SEARCH_RANGE))
     commonCounts = []
     compareResults = []
     for kws in keywords2:
         km = KeyMatch()
-        km.match(kws, blackWords, 'full')
+        km.match(kws, blackWords, '')
         kwsMatch = keywordsWithoutTimes(km.getTop(SEARCH_RANGE))
         compareResult = list(set(compareTarget)&set(kwsMatch))
         
