@@ -32,6 +32,10 @@ Output:
 蔣經國
 ```
 
+# 搜尋快取
+搜尋過的詞條會快取在`.kmcache`資料夾
+也可以運行`cache_all.py`建立所有詞條快取(會花費大量時間)
+
 # ENV require
 - python 3.8+
 
