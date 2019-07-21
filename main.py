@@ -8,7 +8,7 @@ import argparse
 
 def matchJobThread(matchKey:str,blackWords:list):
     km = KeyMatch() # 初始化
-    thread = threading.Thread(target = km.match,args=(matchKey, blackWords, ''))
+    thread = threading.Thread(target = km.match,args=(matchKey, blackWords))
     thread.start()
     return (thread,km)
 
@@ -88,13 +88,13 @@ if __name__ == "__main__":
     
     #
     km = KeyMatch()
-    km.match(KEY, blackWords, '')
+    km.match(KEY, blackWords)
     compareTarget = keywordsWithoutTimes(km.getTop(SEARCH_RANGE))
     commonCounts = []
     compareResults = []
     for kws in keywords2:
         km = KeyMatch()
-        km.match(kws, blackWords, '')
+        km.match(kws, blackWords)
         kwsMatch = keywordsWithoutTimes(km.getTop(SEARCH_RANGE))
         compareResult = list(set(compareTarget)&set(kwsMatch))
         
