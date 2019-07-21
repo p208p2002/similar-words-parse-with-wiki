@@ -1,6 +1,6 @@
-# 維基關鍵字配對
+# 相似詞搜尋
 使用維基百科資料進行相似詞搜尋
-
+> Base on: https://github.com/p208p2002/association-words-with-wiki
 # 配置
 [下載wiki預處理檔案](https://github.com/p208p2002/key-match-with-wiki/releases/tag/0.0.2)，放置在splitdata資料夾底下
 
@@ -31,6 +31,9 @@ Output:
 國民黨
 蔣經國
 ```
+
+# ENV require
+- python 3.8+
 
 
 
