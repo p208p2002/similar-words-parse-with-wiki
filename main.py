@@ -13,7 +13,7 @@ def matchJobThread(matchKey:str,blackWords:list):
     return (thread,km)
 
 def matchKeys(keys:list)->list:
-    totalThreads = 4
+    totalThreads = THREAD
     usingThreads = 0
     jobs = []
     results = []
@@ -51,9 +51,11 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='similar words with wiki')
     parser.add_argument('-k','--key', action="store", dest="key", type=str, required=True)
     parser.add_argument('-sr','--search-range', action="store", dest="search_range", type=int, default=25)
+    parser.add_argument('-t','--thread', action="store", dest="thread", type=int, default=4)
     given_args = parser.parse_args()
     KEY = given_args.key
     SEARCH_RANGE = given_args.search_range
+    THREAD = given_args.thread
 
     # 自訂單詞黑名單
     with open('blacklists/words.txt','r',encoding='utf-8') as f:
