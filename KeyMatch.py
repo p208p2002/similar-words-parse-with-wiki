@@ -6,7 +6,6 @@ import json
 import os
 from collections import Counter
 import pickle
-import sys
 
 class KeyMatch():
     def __init__(self):        
@@ -14,7 +13,6 @@ class KeyMatch():
         self.jsonDataWithSplit = [] # 句子分割        
         self.blackFlags = [] # 詞性過濾黑名單
         self.keyMatchRes = []
-        sys.stdout = open(os.devnull, 'w') #disable print
             
     def split(self, jsonDataPath, blackFlags=[]):        
         # 加載字典        
@@ -24,13 +22,13 @@ class KeyMatch():
         #
         self.blackFlags = blackFlags
         # 加載wiki json
-        print('** 加載 wiki json **')
+        # print('** 加載 wiki json **')
         self.__loadJson(jsonDataPath)        
         # 將文章分隔成句子
-        print('** 開始分割文章 **')
+        # print('** 開始分割文章 **')
         self.__splitArticleAsSentence(self.jsonData)        
         # 將句子分割成單詞，並且過濾指定詞性
-        print('** 開始分割句子成單詞 **')
+        # print('** 開始分割句子成單詞 **')
         self.__splitSentenceAsWords(self.jsonDataWithSplit, self.blackFlags)
 
     def match(self, key='', blackWords=[], subDir= ''):
@@ -116,7 +114,7 @@ class KeyMatch():
                 with open('./splitdata/seg_lists_'+str(fileSerialNumber)+'.pkl', 'wb') as f:
                     pickle.dump(segLists, f, protocol=pickle.HIGHEST_PROTOCOL)
 
-                print('save:','seg_lists_'+str(fileSerialNumber)+'.pkl',i)
+                # print('save:','seg_lists_'+str(fileSerialNumber)+'.pkl',i)
                 
                 # release mem
                 del segLists                
@@ -155,7 +153,7 @@ class KeyMatch():
                 try:
                     with open(fileRootPath + '/' + fileBaseName + str(fileSN) + '.pkl', 'rb') as f:
                         jsonDataAsWords = pickle.load(f)
-                    print('matching:',str(fileSN) + '/' + str(totalFiles))
+                    # print('matching:',str(fileSN) + '/' + str(totalFiles))
                     fileSN += 1
                     
                     # 匹配關鍵字                
