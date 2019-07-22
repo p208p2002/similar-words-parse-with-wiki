@@ -5,7 +5,7 @@ import pickle
 # argv
 parser = argparse.ArgumentParser(description='similar words with wiki')
 parser.add_argument('-s','--start', action="store", dest="start", type=int, required=True)
-parser.add_argument('-r','--range', action="store", dest="range", type=int, default=10)
+parser.add_argument('-r','--range', action="store", dest="range", type=int, default=100)
 given_args = parser.parse_args()
 START = given_args.start
 RANGE = given_args.range
