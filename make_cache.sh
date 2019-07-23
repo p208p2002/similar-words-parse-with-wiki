@@ -1,10 +1,11 @@
 #!/bin/sh
 # chmod 755 make_cache.sh 
 echo "*make cache*"
-echo "check running: ps -ef | grep nohup python make_cache.py"
+echo "check running: ps -ef | grep make_cache.py"
 echo "stop program: kill PID"
 # exec pipenv shell
-for i in 0 400 800 1200 1600 2000 2400
+# echo $(($i*100+200))
+for i in 0 2 4 6 8 10 12 14 16 18 20 22 24
 do
-   exec nohup python make_cache.py -s=$i -r=400 &
+    exec nohup python make_cache.py -s=$(($i*100)) -r=200 &
 done
