@@ -6,7 +6,6 @@ import json
 import os
 from collections import Counter
 import pickle
-import py_classification_cache as pcc
 
 class KeyMatch():
     def __init__(self):        
@@ -14,7 +13,6 @@ class KeyMatch():
         self.jsonDataWithSplit = [] # 句子分割        
         self.blackFlags = [] # 詞性過濾黑名單
         self.keyMatchRes = []
-        self.pyCache = pcc.PCC('.kmcache')
             
     def split(self, jsonDataPath, blackFlags=[]):        
         # 加載字典        
@@ -131,14 +129,9 @@ class KeyMatch():
 
     def __matchKey(self, key, blackWords=[], subDir= ''):
         key = str(key)
-        key = key.replace(" ","")
-        pyCache = self.pyCache
-        cacheFile = pyCache.get(key)
-        # print(key,cacheFile)
-        if(cacheFile != None):
-            self.keyMatchRes = cacheFile
-        elif(key in blackWords or key =="" or key==" "):
-            self.keyMatchRes = {}
+        if os.path.exists('.kmcache/'+key+'.pkl'):
+            with open('.kmcache/'+key+'.pkl','rb') as f:
+                self.keyMatchRes = pickle.load(f)
         else:
             fileSN = 0
             totalFiles = 0
@@ -160,7 +153,7 @@ class KeyMatch():
                 try:
                     with open(fileRootPath + '/' + fileBaseName + str(fileSN) + '.pkl', 'rb') as f:
                         jsonDataAsWords = pickle.load(f)
-                    print('matching:',str(fileSN) + '/' + str(totalFiles),len(key),key)
+                    # print('matching:',str(fileSN) + '/' + str(totalFiles))
                     fileSN += 1
                     
                     # 匹配關鍵字                
@@ -181,7 +174,8 @@ class KeyMatch():
                 except:                
                     break
             
-            pyCache.save(key,keyMatchRes)
-            # print(key,keyMatchRes)
+            # 儲存快取檔案
+            with open('.kmcache/'+ key +'.pkl','wb') as f:
+                pickle.dump(keyMatchRes,f)
             
             self.keyMatchRes = keyMatchRes

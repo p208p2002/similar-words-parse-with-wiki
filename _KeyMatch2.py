@@ -131,14 +131,11 @@ class KeyMatch():
 
     def __matchKey(self, key, blackWords=[], subDir= ''):
         key = str(key)
-        key = key.replace(" ","")
         pyCache = self.pyCache
         cacheFile = pyCache.get(key)
         # print(key,cacheFile)
         if(cacheFile != None):
             self.keyMatchRes = cacheFile
-        elif(key in blackWords or key =="" or key==" "):
-            self.keyMatchRes = {}
         else:
             fileSN = 0
             totalFiles = 0
@@ -160,7 +157,7 @@ class KeyMatch():
                 try:
                     with open(fileRootPath + '/' + fileBaseName + str(fileSN) + '.pkl', 'rb') as f:
                         jsonDataAsWords = pickle.load(f)
-                    print('matching:',str(fileSN) + '/' + str(totalFiles),len(key),key)
+                    # print('matching:',str(fileSN) + '/' + str(totalFiles))
                     fileSN += 1
                     
                     # 匹配關鍵字                
@@ -181,7 +178,6 @@ class KeyMatch():
                 except:                
                     break
             
-            pyCache.save(key,keyMatchRes)
-            # print(key,keyMatchRes)
+            pyCache.save('key',keyMatchRes)
             
             self.keyMatchRes = keyMatchRes
