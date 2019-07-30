@@ -7,10 +7,12 @@ import os
 from collections import Counter
 import pickle
 import copy
+import py_classification_cache as pcc
 
 class KeyMatch():
     def __init__(self):        
         self.keyMatchRes = []
+        self.pyCache = pcc.PCC('.kmcache')
             
     def match(self, keys=[], blackWords=[]):        
         self.__matchKey(keys, blackWords)
@@ -29,12 +31,12 @@ class KeyMatch():
     def __matchKey(self, keys, blackWords=[]):
         keysB = copy.copy(keys)
         keyMatchRes = {} # 與關鍵字匹配
-        for key in keysB:            
-            if os.path.exists('.kmcache/'+key+'.pkl'):
-                print(key,'快取存在')
-                keys.remove(key)          
+        for key in keysB:                        
+            if(self.pyCache.get(key) != None):
+                # print(key,'快取存在')
+                keys.remove(key)
         if(len(keys)>0):
-            print("搜尋:",keys)
+            # print("搜尋:",keys)
             jsonDataAsWords = self.jsonDataAsWords
 
             # 匹配關鍵字                
@@ -58,9 +60,8 @@ class KeyMatch():
             # 儲存快取檔案
             if(len(keys)>0):                
                 for key in keyMatchRes:
-                    print('建立快取:',key)
-                    with open('.kmcache/'+ key +'.pkl','wb') as f:
-                        pickle.dump(keyMatchRes[key],f)
+                    print('建立快取:',key,keyMatchRes[key])
+                    self.pyCache.save(key,keyMatchRes[key])
             
             # print(keyMatchRes)
             # self.keyMatchRes = keyMatchRes

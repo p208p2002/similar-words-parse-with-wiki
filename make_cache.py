@@ -1,5 +1,5 @@
 # import argparse
-from Match2 import KeyMatch
+from core.MuiltMatch import KeyMatch
 import pickle
 from multiprocessing import Process
 
@@ -34,7 +34,7 @@ def matchThread(start,range):
             fileSn += 1        
 
             for d in data:
-                print(d)
+                # print(d)
                 KM.match(keys=d,blackWords=blackWords)
             
             #

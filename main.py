@@ -1,5 +1,5 @@
 # -!- coding: utf-8 -!-
-from KeyMatch import KeyMatch
+from core.KeyMatch import KeyMatch
 import pickle
 import threading
 import time
