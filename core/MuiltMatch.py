@@ -60,8 +60,5 @@ class KeyMatch():
             # 儲存快取檔案
             if(len(keys)>0):                
                 for key in keyMatchRes:
-                    print('建立快取:',key,keyMatchRes[key])
+                    print('建立快取:',key)
                     self.pyCache.save(key,keyMatchRes[key])
-            
-            # print(keyMatchRes)
-            # self.keyMatchRes = keyMatchRes
